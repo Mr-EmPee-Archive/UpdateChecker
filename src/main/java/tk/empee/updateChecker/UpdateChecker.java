@@ -1,5 +1,6 @@
 package tk.empee.updateChecker;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -17,14 +18,12 @@ public class UpdateChecker {
 
 
     private final List<Project> projects = new ArrayList<>();
+
+    private UpdateCheckerConfiguration configuration = new UpdateCheckerConfiguration();
     private UpdateListener updateListener = new DefaultUpdateListener(Logger.getLogger("UpdateChecker"));
 
     private UpdateChecker() {
 
-    }
-
-    UpdateListener getUpdateListener() {
-        return updateListener;
     }
 
     public void registerProject(Project project) {
@@ -34,4 +33,10 @@ public class UpdateChecker {
         this.updateListener = updateListener;
     }
 
+    public void loadConfiguration(InputStream inputStream) {
+        configuration = new UpdateCheckerConfiguration(inputStream);
+    }
+    public UpdateCheckerConfiguration getConfiguration() {
+        return configuration;
+    }
 }
