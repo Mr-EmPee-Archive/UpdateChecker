@@ -5,8 +5,11 @@ import java.util.logging.Logger;
 
 public class DefaultUpdateListener implements UpdateListener {
 
+    private final UpdateCheckerConfiguration configuration;
+
     private Logger logger;
-    public DefaultUpdateListener(Logger logger) {
+    public DefaultUpdateListener(UpdateChecker updateChecker, Logger logger) {
+        configuration = updateChecker.getConfiguration();
         this.logger = logger;
     }
     public void setLogger(Logger logger) {
@@ -22,19 +25,27 @@ public class DefaultUpdateListener implements UpdateListener {
         if(downloadLink != null) {
             logger.warning("You can download it from: " + downloadLink);
         }
-        logger.warning("\n");
-        List<String> bugFixes = update.getBugFixes();
-        if(!bugFixes.isEmpty()) {
-            logger.warning(buildBugFixes(bugFixes));
-        }
-        logger.warning("");
-        List<String> otherInfos = update.getOtherInfos();
-        if(!otherInfos.isEmpty()) {
-            logger.warning(buildOtherInfos(otherInfos));
-        }
+
+        printChangelog(update);
 
     }
 
+    private void printChangelog(Update update) {
+        printBugFixes(update);
+        printOtherInfos(update);
+    }
+
+    private void printBugFixes(Update update) {
+
+        if(configuration.doesItPrintsImportantNotification()) {
+            logger.warning("\n");
+            List<String> bugFixes = update.getBugFixes();
+            if (!bugFixes.isEmpty()) {
+                logger.warning(buildBugFixes(bugFixes));
+            }
+        }
+
+    }
     private String buildBugFixes(List<String> bugFixes) {
 
         StringBuilder string = new StringBuilder(" ! Bug-Fixes");
@@ -44,6 +55,16 @@ public class DefaultUpdateListener implements UpdateListener {
 
         return string.toString();
 
+    }
+
+    private void printOtherInfos(Update update) {
+        if(configuration.doesItPrintsOtherNotification()) {
+            logger.warning("\n");
+            List<String> otherInfos = update.getOtherInfos();
+            if (!otherInfos.isEmpty()) {
+                logger.warning(buildOtherInfos(otherInfos));
+            }
+        }
     }
     private String buildOtherInfos(List<String> otherInfos) {
         StringBuilder string = new StringBuilder(" - Other");
