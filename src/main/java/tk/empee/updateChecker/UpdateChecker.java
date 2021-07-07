@@ -39,4 +39,20 @@ public class UpdateChecker {
     public UpdateCheckerConfiguration getConfiguration() {
         return configuration;
     }
+
+    public void checkUpdates() {
+
+        for(Project project : projects) {
+
+            Update update = project.isOutdated();
+            if(update != null) {
+                updateListener.onOutdated(project, update);
+            } else {
+                updateListener.onUpdated(project);
+            }
+
+        }
+
+    }
+
 }
