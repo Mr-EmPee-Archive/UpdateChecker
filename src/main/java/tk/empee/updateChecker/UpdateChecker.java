@@ -20,7 +20,7 @@ public class UpdateChecker {
     private final List<Project> projects = new ArrayList<>();
 
     private UpdateCheckerConfiguration configuration = new UpdateCheckerConfiguration();
-    private UpdateListener updateListener = new DefaultUpdateListener(Logger.getLogger("UpdateChecker"));
+    private UpdateListener updateListener = new DefaultUpdateListener(this, Logger.getLogger("UpdateChecker"));
 
     private UpdateChecker() {
 
