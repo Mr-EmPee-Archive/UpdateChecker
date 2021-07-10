@@ -21,7 +21,16 @@ the user is currently using, so make sure to have it correctly set up.
 ```
 manifest.mf example:
 
-    Implementation-Version: x.y.z
+    Specification-Version: x.y.z
+    Latest-ManifestURL: http://raw.github.com/mylatestmanifest.mf
+```
+
+```
+latestManifest.mf example:
+
+    Specification-Version: x.y.z
+    Changelog-FolderURL: http://raw.github.com/changelogs/
+    Changelog-NamingConvetion: changelog-x-y-z.log
 ```
 
 ## Contributing
