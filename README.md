@@ -16,21 +16,30 @@ At the moment you must clone the project and importing manually into your projec
 
 ## Usage
 This library uses the jar's manifest to know which version of the program
-the user is currently using, so make sure to have it correctly set up.
+the user is currently using and other useful info so make sure to
+have it correctly set up.
+
+### What the manifest file needs
+
+1. "Specification-Version" it tells the version of the jar
+   
+1. "Latest-ManifestURL" it is a URL that points to the manifest of the latest jar
+
+1. "Changelog-FolderURL" it is a URL that points to a folder which contains all the jar's changelog
+
+1. "Changelog-NamingConvention" it tells the naming convention used into the changelog folder
+
+1. "Jar-DownloadURL" it tells from which URL you can download the jar
 
 ```
 manifest.mf example:
 
     Specification-Version: x.y.z
     Latest-ManifestURL: http://raw.github.com/mylatestmanifest.mf
-```
-
-```
-latestManifest.mf example:
-
-    Specification-Version: x.y.z
+    
     Changelog-FolderURL: http://raw.github.com/changelogs/
     Changelog-NamingConvetion: changelog-x-y-z.log
+    Jar-DownloadURL: http://github.com/repo/demo/x.y.z/demo-release.jar 
 ```
 
 ## Contributing
