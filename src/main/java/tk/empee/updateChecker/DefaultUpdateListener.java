@@ -1,5 +1,6 @@
 package tk.empee.updateChecker;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -21,7 +22,7 @@ public class DefaultUpdateListener implements UpdateListener {
         logger.warning("The project " + project + " is outdated!");
         logger.warning("The newest version is the " + update.getVersion() );
 
-        String downloadLink = update.getDownloadLink();
+        String downloadLink = update.getDownloadURL().toString();
         if(downloadLink != null) {
             logger.warning("You can download it from: " + downloadLink);
         }
@@ -37,10 +38,11 @@ public class DefaultUpdateListener implements UpdateListener {
 
     private void printBugFixes(Update update) {
 
-        if(configuration.doesItPrintsImportantNotification()) {
+        if(configuration.doesItPrintsBugFixes()) {
             logger.warning("\n");
             List<String> bugFixes = update.getBugFixes();
             if (!bugFixes.isEmpty()) {
+                Collections.sort(bugFixes);
                 logger.warning(buildBugFixes(bugFixes));
             }
         }
@@ -62,6 +64,7 @@ public class DefaultUpdateListener implements UpdateListener {
             logger.warning("\n");
             List<String> otherInfos = update.getOtherInfos();
             if (!otherInfos.isEmpty()) {
+                Collections.sort(otherInfos);
                 logger.warning(buildOtherInfos(otherInfos));
             }
         }
