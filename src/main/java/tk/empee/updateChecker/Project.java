@@ -32,7 +32,7 @@ public class Project {
         try {
             Manifest projectManifest = projectJar.getManifest();
             currentVersion = projectManifest.getMainAttributes().getValue("Specification-Version");
-            latestManifest = getLatestManifest(projectManifest.getMainAttributes().getValue("Latest-ManifestURL"));
+            latestManifest = getManifestFromURL(projectManifest.getMainAttributes().getValue("Latest-ManifestURL"));
         } catch (Exception e) {
             throw new IOException("Error while parsing the jar manifest", e);
         }
@@ -50,13 +50,13 @@ public class Project {
 
     }
 
-    private Manifest getLatestManifest(String urlString) throws MalformedURLException {
+    private Manifest getManifestFromURL(String urlString) throws MalformedURLException {
 
         try {
-            URL latestManifestURL = new URL(urlString);
-            return new Manifest(latestManifestURL.openStream());
+            URL manifestURL = new URL(urlString);
+            return new Manifest(manifestURL.openStream());
         } catch (IOException e) {
-            throw new MalformedURLException("The latest manifest URL is malformed");
+            throw new MalformedURLException("The manifest URL is malformed");
         }
 
     }
@@ -67,22 +67,38 @@ public class Project {
     public String getCurrentVersion() {
         return currentVersion;
     }
+    public String getLatestVersion() { return latestVersion; }
+    public URL getLatestJarDownloadURL() { return latestJarDownloadURL; }
 
     public Update isOutdated() {
 
         Update update = null;
 
         if(!(Version.compare(currentVersion, latestVersion) < 0)) {
-            update = new Update(latestVersion, latestJarDownloadURL);
-            update.loadChangelogs(changelogFolderURl, changelogNamingConvention);
+            update = new Update(this, buildLatestChangelogURL());
         }
 
         return update;
 
     }
 
+    private URL buildLatestChangelogURL() {
+
+        String[] version = latestVersion.split("\\.");
+        String fileName = changelogNamingConvention
+                .replace("x", version[0])
+                .replace("y", version[1])
+                .replace("z", version[2]);
+
+        try {
+            return new URL(changelogFolderURl, fileName);
+        } catch (MalformedURLException e) {
+            throw new RuntimeException("Error while retrieving the latest changelog", e);
+        }
+
+    }
+
     public String toString() {
         return getName() + " (" + getCurrentVersion() +  ")";
     }
-
 }
