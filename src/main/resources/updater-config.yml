@@ -1,0 +1,5 @@
+updater:
+  checks-for-updates: true
+  notify-settings:
+    bug-fixes: true
+    other-info: false

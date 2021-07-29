@@ -1,17 +1,27 @@
 package tk.empee.updateChecker;
 
+import org.yaml.snakeyaml.Yaml;
+
 import java.io.InputStream;
+import java.util.Map;
 
-public class UpdateCheckerConfiguration {
-
+class UpdateCheckerConfiguration {
     private boolean isEnabled = true;
-    private boolean printImportantNotification = true;
+    private boolean printBugFixes = true;
     private boolean printOtherNotification = false;
 
     public UpdateCheckerConfiguration() {}
 
     public UpdateCheckerConfiguration(InputStream inputStream) {
-        //TODO Load from file yml
+
+        Map<String, Object> config = new Yaml().load(inputStream);
+        config =  (Map<String, Object>) config.get("updater");
+
+        isEnabled = (boolean) config.get("checks-for-updates");
+        Map<String, Object> notifySettings = (Map<String, Object>) config.get("notify-settings");
+        printBugFixes = (boolean) notifySettings.get("bug-fixes");
+        printOtherNotification = (boolean) notifySettings.get("other-info");
+
     }
 
     public boolean isEnabled() {
@@ -20,11 +30,11 @@ public class UpdateCheckerConfiguration {
     public void setEnabled(boolean enabled) {
         isEnabled = enabled;
     }
-    public boolean doesItPrintsImportantNotification() {
-        return printImportantNotification;
+    public boolean doesItPrintsBugFixes() {
+        return printBugFixes;
     }
-    public void setImportantNotification(boolean printImportantNotification) {
-        this.printImportantNotification = printImportantNotification;
+    public void setBugFixes(boolean printImportantNotification) {
+        this.printBugFixes = printImportantNotification;
     }
     public boolean doesItPrintsOtherNotification() {
         return printOtherNotification;
