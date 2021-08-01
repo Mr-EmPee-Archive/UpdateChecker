@@ -74,7 +74,7 @@ public class Project {
 
         Update update = null;
 
-        if(!(Version.compare(currentVersion, latestVersion) < 0)) {
+        if(Version.compare(currentVersion, latestVersion) < 0) {
             update = new Update(this, buildLatestChangelogURL());
         }
 
