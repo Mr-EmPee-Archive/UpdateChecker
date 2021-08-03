@@ -39,9 +39,9 @@ public class DefaultUpdateListener implements UpdateListener {
     private void printBugFixes(Update update) {
 
         if(configuration.doesItPrintsBugFixes()) {
-            logger.warning("\n");
             List<String> bugFixes = update.getBugFixes();
             if (!bugFixes.isEmpty()) {
+                logger.warning("\n");
                 Collections.sort(bugFixes);
                 logger.warning(buildBugFixes(bugFixes));
             }
@@ -52,7 +52,7 @@ public class DefaultUpdateListener implements UpdateListener {
 
         StringBuilder string = new StringBuilder(" ! Bug-Fixes");
         for(String bugFix : bugFixes) {
-            string.append("\n * ").append(bugFix);
+            string.append("\n ").append(bugFix);
         }
 
         return string.toString();
@@ -61,9 +61,9 @@ public class DefaultUpdateListener implements UpdateListener {
 
     private void printOtherInfos(Update update) {
         if(configuration.doesItPrintsOtherNotification()) {
-            logger.warning("\n");
             List<String> otherInfos = update.getOtherInfos();
             if (!otherInfos.isEmpty()) {
+                logger.warning("\n");
                 Collections.sort(otherInfos);
                 logger.warning(buildOtherInfos(otherInfos));
             }
@@ -72,7 +72,7 @@ public class DefaultUpdateListener implements UpdateListener {
     private String buildOtherInfos(List<String> otherInfos) {
         StringBuilder string = new StringBuilder(" - Other");
         for(String info : otherInfos) {
-            string.append("\n * ").append(info);
+            string.append("\n ").append(info);
         }
 
         return string.toString();
