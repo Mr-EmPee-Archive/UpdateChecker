@@ -40,10 +40,10 @@ public class Update {
         String buffer, oldBuffer = null;
         try(BufferedReader reader = new BufferedReader(new InputStreamReader(changelogURL.openStream()))) {
 
-            while((buffer = reader.readLine()) != null) {
+            while((buffer = reader.readLine()) != null || oldBuffer != null) {
 
                 if(oldBuffer != null) {
-                    if (!buffer.startsWith("\t")) {
+                    if (buffer == null || !buffer.startsWith("\t")) {
                         logMessage(oldBuffer);
                     } else {
                         buffer = oldBuffer + " " + buffer;
