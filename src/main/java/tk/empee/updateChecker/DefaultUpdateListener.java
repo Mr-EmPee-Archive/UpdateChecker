@@ -20,7 +20,7 @@ public class DefaultUpdateListener implements UpdateListener {
     @Override
     public void onOutdated(Project project, Update update) {
         logger.warning("The project " + project + " is outdated!");
-        logger.warning("The newest version is the " + update.getVersion() );
+        logger.warning("The newest version is the " + update.getLatestVersion() );
 
         String downloadLink = update.getDownloadURL().toString();
         if(downloadLink != null) {
