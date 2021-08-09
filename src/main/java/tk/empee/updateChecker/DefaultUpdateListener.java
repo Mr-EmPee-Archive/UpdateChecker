@@ -19,14 +19,16 @@ public class DefaultUpdateListener implements UpdateListener {
 
     @Override
     public void onOutdated(Project project, Update update) {
-        logger.warning("The project " + project + " is outdated!");
-        logger.warning("The newest version is the " + update.getLatestVersion() );
+
+        String outdatedWarning = "\nThe project " + project + " is outdated!";
+        outdatedWarning += "\nThe newest version is the " + update.getLatestVersion();
 
         String downloadLink = update.getDownloadURL().toString();
         if(downloadLink != null) {
-            logger.warning("You can download it from: " + downloadLink);
+            outdatedWarning += "\nYou can download it from: " + downloadLink;
         }
 
+        logger.warning(outdatedWarning);
         printChangelog(update);
 
     }
@@ -41,18 +43,17 @@ public class DefaultUpdateListener implements UpdateListener {
         if(configuration.doesItPrintsBugFixes()) {
             List<String> bugFixes = update.getBugFixes();
             if (!bugFixes.isEmpty()) {
-                logger.warning("\n");
                 Collections.sort(bugFixes);
-                logger.warning(buildBugFixes(bugFixes));
+                logger.warning( buildBugFixes(bugFixes));
             }
         }
 
     }
     private String buildBugFixes(List<String> bugFixes) {
 
-        StringBuilder string = new StringBuilder(" ! Bug-Fixes");
+        StringBuilder string = new StringBuilder("\n The Bug-Fixes made on the newest version are:");
         for(String bugFix : bugFixes) {
-            string.append("\n ").append(bugFix);
+            string.append("\n").append(bugFix);
         }
 
         return string.toString();
@@ -63,16 +64,15 @@ public class DefaultUpdateListener implements UpdateListener {
         if(configuration.doesItPrintsOtherNotification()) {
             List<String> otherInfos = update.getOtherInfos();
             if (!otherInfos.isEmpty()) {
-                logger.warning("\n");
                 Collections.sort(otherInfos);
-                logger.warning(buildOtherInfos(otherInfos));
+                logger.warning( buildOtherInfos(otherInfos));
             }
         }
     }
     private String buildOtherInfos(List<String> otherInfos) {
-        StringBuilder string = new StringBuilder(" - Other");
+        StringBuilder string = new StringBuilder("\n The other changes made on the newest version are:");
         for(String info : otherInfos) {
-            string.append("\n ").append(info);
+            string.append("\n").append(info);
         }
 
         return string.toString();
