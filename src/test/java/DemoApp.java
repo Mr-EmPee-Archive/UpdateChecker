@@ -2,7 +2,6 @@ import tk.empee.updateChecker.Project;
 import tk.empee.updateChecker.UpdateChecker;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URISyntaxException;
 
 public class DemoApp {
@@ -21,13 +20,10 @@ public class DemoApp {
         }
 
         assert testJar != null;
+        System.out.println("The jar file 'testJar exists'");
 
-        try {
-            updateChecker.registerProject(new Project(testJar));
-            updateChecker.checkUpdates();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        updateChecker.registerProject(new Project(testJar));
+        updateChecker.checkUpdates();
 
         System.out.println(" --- Ending application");
 
