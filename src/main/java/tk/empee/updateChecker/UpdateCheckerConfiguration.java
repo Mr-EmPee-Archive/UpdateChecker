@@ -6,11 +6,17 @@ import java.io.InputStream;
 import java.util.Map;
 
 class UpdateCheckerConfiguration {
-    private boolean isEnabled = true;
-    private boolean printBugFixes = true;
-    private boolean printOtherNotification = false;
+    private final boolean isEnabled;
+    private final boolean printBugFixes;
+    private final boolean printOtherNotification;
 
-    public UpdateCheckerConfiguration() {}
+    public UpdateCheckerConfiguration() {
+
+        isEnabled = true;
+        printBugFixes = true;
+        printOtherNotification = true;
+
+    }
 
     public UpdateCheckerConfiguration(InputStream inputStream) {
 
@@ -27,20 +33,11 @@ class UpdateCheckerConfiguration {
     public boolean isEnabled() {
         return isEnabled;
     }
-    public void setEnabled(boolean enabled) {
-        isEnabled = enabled;
-    }
     public boolean doesItPrintsBugFixes() {
         return printBugFixes;
     }
-    public void setBugFixes(boolean printImportantNotification) {
-        this.printBugFixes = printImportantNotification;
-    }
     public boolean doesItPrintsOtherNotification() {
         return printOtherNotification;
-    }
-    public void setOtherNotification(boolean printOtherNotification) {
-        this.printOtherNotification = printOtherNotification;
     }
 
 }
