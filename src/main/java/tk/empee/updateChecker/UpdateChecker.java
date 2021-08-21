@@ -5,6 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+/**
+ * In order to use the update checker you must get an instance of this class, then
+ * you should register your project though the #registerProject method and finally
+ * you need to call the #checkUpdates method
+ */
 public class UpdateChecker {
     private static UpdateChecker instance;
     public static UpdateChecker getInstance() {
@@ -41,6 +46,9 @@ public class UpdateChecker {
     }
 
     public void checkUpdates() {
+
+        if(!configuration.isEnabled()) {
+            return; }
 
         for(Project project : projects) {
 

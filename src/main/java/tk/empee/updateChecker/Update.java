@@ -22,14 +22,14 @@ public class Update {
 
     private final URL latestJarDownloadURL;
 
-    private final Project project;
+    private final boolean isOutdated;
 
     /**
+     * Download the project's latest manifest and work on its content
      * @throws RuntimeException if it occurs a problem while parsing a manifest.
      * The cause can be retrieved using #getCause()
      */
     Update(Project project) {
-        this.project = project;
 
         try {
             Manifest latestManifest = getManifestFromURL(project.getLatestManifestURL());
@@ -38,7 +38,8 @@ public class Update {
             changelogNamingConvention = latestManifest.getMainAttributes().getValue("Changelog-NamingConvention");
             latestJarDownloadURL = new URL(latestManifest.getMainAttributes().getValue("Jar-DownloadURL"));
 
-            if(isOutdated()) {
+            isOutdated = Version.compare(project.getCurrentVersion(), latestVersion) < 0;
+            if(isOutdated) {
                 loadChangelog(buildChangelogURL(latestVersion));
             }
 
@@ -75,7 +76,7 @@ public class Update {
     }
 
     public boolean isOutdated() {
-        return Version.compare(project.getCurrentVersion(), latestVersion) < 0;
+        return isOutdated;
     }
 
     public String getLatestVersion() {
